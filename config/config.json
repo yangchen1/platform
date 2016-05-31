@@ -219,5 +219,12 @@
         "Enable": false,
         "InterNodeListenAddress": ":8075",
         "InterNodeUrls": []
+    },
+    "SampleAppSettings": {
+        "Enable": false,
+        "AppUrl": "",
+        "IconUrl": "",
+        "AppName": "",
+        "AppDisplayName": ""
     }
 }
