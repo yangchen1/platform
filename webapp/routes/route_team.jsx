@@ -137,7 +137,7 @@ function onPermalinkEnter(nextState) {
     GlobalActions.emitPostFocusEvent(postId);
 }
 
-export default {
+export default [{
     path: ':team',
     onEnter: preNeedsTeam,
     indexRoute: {onEnter: (nextState, replace) => replace('/' + nextState.params.team + '/channels/town-square')},
@@ -187,4 +187,4 @@ export default {
             ]
         }
     ]
-};
+}];
