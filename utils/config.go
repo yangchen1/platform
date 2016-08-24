@@ -197,6 +197,12 @@ func LoadConfig(fileName string) {
 	if samlI := einterfaces.GetSamlInterface(); samlI != nil {
 		samlI.ConfigureSP()
 	}
+
+	SetDefaultRolesBasedOnConfig()
+}
+
+func RegenerateClientConfig() {
+	ClientCfg = getClientConfig(Cfg)
 }
 
 func getClientConfig(c *model.Config) map[string]string {

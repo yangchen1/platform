@@ -182,7 +182,12 @@ func UpgradeDatabaseToVersion34(sqlStore *SqlStore) {
 	// TODO XXX FIXME should be removed before release
 	//if shouldPerformUpgrade(sqlStore, VERSION_3_3_0, VERSION_3_4_0) {
 
-	// do the actual upgrade
+	sqlStore.GetMaster().Exec("UPDATE Users SET Roles = 'system_user' WHERE Roles = ''")
+	sqlStore.GetMaster().Exec("UPDATE Users SET Roles = 'system_user system_admin' WHERE Roles = 'system_admin'")
+	sqlStore.GetMaster().Exec("UPDATE TeamMembers SET Roles = 'team_user' WHERE Roles = ''")
+	sqlStore.GetMaster().Exec("UPDATE TeamMembers SET Roles = 'team_user team_admin' WHERE Roles = 'admin'")
+	sqlStore.GetMaster().Exec("UPDATE ChannelMembers SET Roles = 'channel_user' WHERE Roles = ''")
+	sqlStore.GetMaster().Exec("UPDATE ChannelMembers SET Roles = 'channel_user channel_admin' WHERE Roles = 'admin'")
 
 	// TODO XXX FIXME should be removed before release
 	//saveSchemaVersion(sqlStore, VERSION_3_4_0)

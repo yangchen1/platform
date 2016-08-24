@@ -6,6 +6,7 @@ package model
 import (
 	"encoding/json"
 	"io"
+	"strings"
 )
 
 const (
@@ -107,6 +108,10 @@ func (me *Session) GetTeamByTeamId(teamId string) *TeamMember {
 	}
 
 	return nil
+}
+
+func (me *Session) GetUserRoles() []string {
+	return strings.Fields(me.Roles)
 }
 
 func SessionsToJson(o []*Session) string {

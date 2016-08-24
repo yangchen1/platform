@@ -975,6 +975,7 @@ func (c *Client) CreateDirectChannel(userId string) (*Result, *AppError) {
 	if r, err := c.DoApiPost(c.GetTeamRoute()+"/channels/create_direct", MapToJson(data)); err != nil {
 		return nil, err
 	} else {
+		l4g.Debug(r.Body)
 		defer closeBody(r)
 		return &Result{r.Header.Get(HEADER_REQUEST_ID),
 			r.Header.Get(HEADER_ETAG_SERVER), ChannelFromJson(r.Body)}, nil
