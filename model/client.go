@@ -1449,10 +1449,8 @@ func (c *Client) GetStatuses() (*Result, *AppError) {
 }
 
 // GetTeamStatuses returns a map of users including lastActivityAt using user id as the key
-func (c *Client) GetTeamStatuses(teamId string) (*Result, *AppError) {
-	data := map[string]string{}
-	data["team_id"] = teamId
-	if r, err := c.DoApiPost("/users/team_statuses", MapToJson(data)); err != nil {
+func (c *Client) GetTeamStatuses() (*Result, *AppError) {
+	if r, err := c.DoApiGet(c.GetTeamRoute()+"/team_statuses", "", ""); err != nil {
 		return nil, err
 	} else {
 		defer closeBody(r)
