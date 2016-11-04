@@ -80,7 +80,7 @@ export default class DeleteChannelModal extends React.Component {
 <<<<<<< HEAD
                     <FormattedMessage
                         id='delete_channel.question'
-                        defaultMessage='This will delete the channel from the team and make its contents inaccessible for all users. Are you sure you wish to delete the {display_name} {term}?'
+                        defaultMessage='This will delete the {term} from the team and make its contents inaccessible for all users. Are you sure you wish to delete the {display_name} {term}?'
                         values={{
                             display_name: this.props.channel.display_name,
                             term: (channelTerm)
