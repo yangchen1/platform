@@ -34,13 +34,11 @@ export default class MoreDirectChannels extends React.Component {
         this.toggleList = this.toggleList.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.search = this.search.bind(this);
-        this.loadComplete = this.loadComplete.bind(this);
 
         this.state = {
-            users: UserStore.getProfileListInTeam(TeamStore.getCurrentId(), true),
+            users: null,
             loadingDMChannel: -1,
             listType: 'team',
-            loading: false,
             search: false
         };
     }
@@ -60,10 +58,6 @@ export default class MoreDirectChannels extends React.Component {
         UserStore.removeInTeamChangeListener(this.onChange);
         UserStore.removeStatusesChangeListener(this.onChange);
         TeamStore.removeChangeListener(this.onChange);
-    }
-
-    loadComplete() {
-        this.setState({loading: false});
     }
 
     handleHide() {
@@ -111,7 +105,7 @@ export default class MoreDirectChannels extends React.Component {
         if (this.state.listType === 'any') {
             users = UserStore.getProfileList();
         } else {
-            users = UserStore.getProfileListInTeam(TeamStore.getCurrentId(), true);
+            users = UserStore.getProfileListInTeam(TeamStore.getCurrentId(), true, true);
         }
 
         this.setState({
@@ -125,7 +119,7 @@ export default class MoreDirectChannels extends React.Component {
         if (listType === 'any') {
             users = UserStore.getProfileList();
         } else {
-            users = UserStore.getProfileListInTeam(TeamStore.getCurrentId(), true);
+            users = UserStore.getProfileListInTeam(TeamStore.getCurrentId(), true, true);
         }
 
         this.setState({
@@ -229,11 +223,6 @@ export default class MoreDirectChannels extends React.Component {
             );
         }
 
-        let users = this.state.users;
-        if (this.state.loading) {
-            users = null;
-        }
-
         return (
             <Modal
                 dialogClassName='more-modal more-direct-channels'
@@ -254,7 +243,7 @@ export default class MoreDirectChannels extends React.Component {
                     <SearchableUserList
                         key={'moreDirectChannelsList_' + this.state.listType}
                         style={{maxHeight}}
-                        users={users}
+                        users={this.state.users}
                         usersPerPage={USERS_PER_PAGE}
                         nextPage={this.nextPage}
                         search={this.search}

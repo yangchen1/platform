@@ -29,6 +29,7 @@ export default class Textbox extends React.Component {
         this.onRecievedError = this.onRecievedError.bind(this);
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleKeyDown = this.handleKeyDown.bind(this);
+        this.handleBlur = this.handleBlur.bind(this);
         this.handleHeightChange = this.handleHeightChange.bind(this);
         this.showPreview = this.showPreview.bind(this);
 
@@ -84,6 +85,12 @@ export default class Textbox extends React.Component {
         }
     }
 
+    handleBlur(e) {
+        if (this.props.onBlur) {
+            this.props.onBlur(e);
+        }
+    }
+
     handleHeightChange(height) {
         const textbox = $(this.refs.message.getTextbox());
         const wrapper = $(this.refs.wrapper);
@@ -121,7 +128,7 @@ export default class Textbox extends React.Component {
     }
 
     render() {
-        const hasText = this.props.messageText && this.props.messageText.length > 0;
+        const hasText = this.props.value && this.props.value.length > 0;
 
         let previewLink = null;
         if (Utils.isFeatureEnabled(PreReleaseFeatures.MARKDOWN_PREVIEW)) {
@@ -209,19 +216,20 @@ export default class Textbox extends React.Component {
                     onChange={this.props.onChange}
                     onKeyPress={this.handleKeyPress}
                     onKeyDown={this.handleKeyDown}
+                    onBlur={this.handleBlur}
                     onHeightChange={this.handleHeightChange}
                     style={{visibility: this.state.preview ? 'hidden' : 'visible'}}
                     listComponent={SuggestionList}
                     providers={this.suggestionProviders}
                     channelId={this.props.channelId}
-                    value={this.props.messageText}
+                    value={this.props.value}
                     renderDividers={true}
                 />
                 <div
                     ref='preview'
                     className='form-control custom-textarea textbox-preview-area'
                     style={{display: this.state.preview ? 'block' : 'none'}}
-                    dangerouslySetInnerHTML={{__html: this.state.preview ? TextFormatting.formatText(this.props.messageText) : ''}}
+                    dangerouslySetInnerHTML={{__html: this.state.preview ? TextFormatting.formatText(this.props.value) : ''}}
                 />
                 <div className='help__text'>
                     {helpText}
@@ -250,10 +258,11 @@ Textbox.defaultProps = {
 Textbox.propTypes = {
     id: React.PropTypes.string.isRequired,
     channelId: React.PropTypes.string,
-    messageText: React.PropTypes.string.isRequired,
+    value: React.PropTypes.string.isRequired,
     onChange: React.PropTypes.func.isRequired,
     onKeyPress: React.PropTypes.func.isRequired,
     createMessage: React.PropTypes.string.isRequired,
     onKeyDown: React.PropTypes.func,
+    onBlur: React.PropTypes.func,
     supportsCommands: React.PropTypes.bool.isRequired
 };
